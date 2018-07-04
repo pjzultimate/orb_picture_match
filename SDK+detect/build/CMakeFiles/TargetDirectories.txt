@@ -1,0 +1,3 @@
+/home/pjz/SDK/build/CMakeFiles/rebuild_cache.dir
+/home/pjz/SDK/build/CMakeFiles/edit_cache.dir
+/home/pjz/SDK/build/CMakeFiles/camtest2.dir
