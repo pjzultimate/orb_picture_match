@@ -65,20 +65,30 @@ void CalcCorners(const Mat& H, const Mat& src)
 int main()
 {
     //注意图像输入的顺序，先右后左
-    Mat img1 = imread("/home/pjz/2.png");
-    Mat img2 = imread("/home/pjz/1.png");
+    Mat img1 = imread("/home/pjz/1.png");
+    Mat img2 = imread("/home/pjz/2.png");
     imshow("test",img1);
     Mat img11,img22,imgmatch;
     cvtColor(img1,img11,CV_RGB2GRAY);
     cvtColor(img2,img22,CV_RGB2GRAY);
     Ptr<ORB> orb =ORB::create(2000);
+    Ptr<xfeatures2d::SURF> surf=xfeatures2d::SURF::create(100);
+    Ptr<xfeatures2d::SIFT> sift=xfeatures2d::SIFT::create(2000);
     vector<KeyPoint> kp1,kp2;
     Mat descrip1,descrip2;
     orb->detectAndCompute(img11,Mat(),kp1,descrip1);
     orb->detectAndCompute(img22,Mat(),kp2,descrip2);
+    //surf->detectAndCompute(img11,Mat(),kp1,descrip1);//surf
+    //surf->detectAndCompute(img22,Mat(),kp2,descrip2);//surf
+    //sift->detectAndCompute(img11,Mat(),kp1,descrip1);//sift
+    //sift->detectAndCompute(img22,Mat(),kp2,descrip2);//sift
     BFMatcher matcher ( NORM_HAMMING );
     vector<DMatch> matches;
+    //Ptr<DescriptorMatcher> matcher=DescriptorMatcher::create("BruteForce");//surf
+    //Ptr<DescriptorMatcher> matcher = DescriptorMatcher::create("BruteForce");//sift
     matcher.match(descrip1,descrip2,matches,Mat());
+    //matcher->match(descrip1,descrip2,matches,Mat());//surf
+     //matcher->match(descrip1,descrip2,matches,Mat());//sift
     //RANSAC操作：
     //1、根据matches中匹配的结果将两幅图像的特征点对齐，并将特征点的类型转化为float，为接下来做准备
     //2、通过求基础矩阵（F;调用函数findFundanmentalMat）得到特征点中匹配状态ransacstatus;
